@@ -1,0 +1,75 @@
+/*애니메이션 효과 - 메인비주얼텍스트*/
+.titleInner.on p{transform: translateY(0);transition: 1.2s;opacity: 1;}
+.titleInner.on h2{transform: scale3d(1, 1, 1);transition: 1.5s;opacity: 1;transition-delay: 0.5s;}
+
+/*애니메이션 효과 - 스크롤버튼 라인*/
+.lineTop.move{left:-76px;animation-name:lineT; animation-duration:0.5s; animation-iteration-count:1; animation-timing-function:ease-out;animation-fill-mode:forwards;animation-delay: 1s;}
+.lineBtm.move{right:-76px;animation-name:lineB; animation-duration:0.5s; animation-iteration-count:1; animation-timing-function:ease-out;animation-fill-mode:forwards;animation-delay: 2s;}
+.lineRigth.move{top:-76px;animation-name:lineR; animation-duration:0.5s; animation-iteration-count:1; animation-timing-function:ease-out;animation-fill-mode:forwards;animation-delay: 1.5s;}
+.lineLeft.move{bottom:-76px;animation-name:lineL; animation-duration:0.5s; animation-iteration-count:1; animation-timing-function:ease-out;animation-fill-mode:forwards;animation-delay: 2.5s;}
+@keyframes lineT{
+	from {left:-76px}
+	to {left:0}
+}
+@keyframes lineB{
+	from {right:-76px}
+	to {right:0}
+}
+@keyframes lineL{
+	from {bottom:-76px;}
+	to {bottom:0;}
+}
+@keyframes lineR{
+	from {top:-76px;}
+	to {top:0;}
+}
+/*애니메이션 - fadeIn*/
+.animated{transition:all 1s ease;}
+
+.fadeIn{opacity: 0;}
+.fadeIn.active{opacity: 1;}
+
+.fadeInRight{transform:translateX(80px); opacity:0}
+.fadeInRight.active{transform:translateX(0px); opacity:1;}
+.fadeInLeft{transform:translateX(-80px); opacity:0}
+.fadeInLeft.active{transform:translateX(0px); opacity:1;}
+
+.fadeInUp{transform:translateY(40px); opacity:0}
+.fadeInUp.active{transform:translateY(0); opacity:1}
+.fadeInDown{transform:translateY(-40px); opacity:0}
+.fadeInDown.active{transform:translateY(0); opacity:1}
+/*애니메이션 - bounce*/
+.bounce.active{animation-name:bounce; animation-duration:0.8s; animation-iteration-count:1; animation-timing-function:ease-out;animation-fill-mode:forwards;animation-delay:0.7s;}
+
+/*애니메이션 - wide*/
+.wide.active{animation-name:wide; animation-duration:1s; animation-iteration-count:1; animation-timing-function:ease-out;animation-fill-mode:forwards;}
+.moveLeft.active{animation-name:moveLeft; animation-duration:1s; animation-iteration-count:1; animation-timing-function:ease-out;animation-fill-mode:forwards;animation-delay:0.5s;}
+
+/*애니메이션 - height*/
+.height.active{animation-name:height; animation-duration:1s; animation-iteration-count:1; animation-timing-function:ease-out;animation-fill-mode:forwards;}
+@keyframes bounce{
+	0% {transform:translateY(5px);}
+	50% {transform:translateY(-3px);}
+	100% {transform:translateY(0);}
+}
+
+@keyframes wide{
+	from {width:0;}
+	to {width:100%;}
+}
+
+@keyframes height{
+	from {height:0;}
+	to {height:85px;}
+}
+
+@keyframes moveLeft{
+	from {left:100%;}
+	to {left:0}
+}
+
+/*애니메이션 - scale*/
+.scaleSmall{transform:scale3d(0.95, 0.95, 1); opacity:0}
+.scaleSmall.active{transform:scale3d(1, 1, 1); opacity:1}
+.scaleBig{transform:scale3d(1.1, 1.1, 1); transition:all 1.8s ease;}
+.scaleBig.active{transform:scale3d(1, 1, 1); }

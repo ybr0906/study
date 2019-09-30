@@ -1,0 +1,33 @@
+@import url(common.css);
+
+.main_board{margin-top:40px;overflow: hidden;}
+nav{float: left;margin-right: 50px;width: 210px;}
+nav>ul{}
+nav>ul>li{margin-top:5px}
+nav>ul>li>a{font-size:15px;display: block;color: #172b4d;font-weight: 500;padding:8px 10px 8px 35px;}
+nav>ul>li:first-child>a{background: url(../images/main/board_B.png)left 10px center no-repeat;}
+nav>ul>li:last-child>a{background: url(../images/main/home_B.png)left 10px center no-repeat;}
+nav>ul>li:first-child>a:hover{background: #eaeaea url(../images/main/board_B.png)left 10px center no-repeat;}
+nav>ul>li:last-child>a:hover{background: #eaeaea url(../images/main/home_B.png)left 10px center no-repeat;}
+nav>ul>li.on{background: #e4f0f6;border-radius: 3px;}
+nav>ul>li.on>a{color: #0079bf;}
+nav>ul>li.on:first-child>a{background: url(../images/main/board_B2.png)left 10px center no-repeat;}
+nav>ul>li.on:last-child>a{background: url(../images/main/home_B2.png)left 10px center no-repeat;}
+.nav_btn{}
+.nav_btn p{color:#5e6c84;margin-bottom:10px;padding: 10px;}
+.text_btn{color: rgba(9,30,66,.66);padding:8px 10px 8px 35px;background: url(../images/main/add_B.png)left 10px center no-repeat;border-radius: 3px;width: 100%;text-align: left;}
+.text_btn:hover{background: #eaeaea url(../images/main/add_B.png)left 10px center no-repeat;}
+
+.board_box{float: left;width: 740px;}
+.board_box .board_tit{padding:8px 10px 8px 30px;}
+.board_box .board_tit.recent{background: url(../images/main/time_B.png)left 5px center no-repeat;}
+.board_box .board_tit.person{background: url(../images/main/person_B.png)left 5px center no-repeat;}
+.board_box>ul{overflow: hidden;margin-bottom:25px;}
+.board_box>ul>li{float: left;width: 25%;margin-right: 2%;margin-bottom:1.5%;}
+.board_box>ul>li:nth-child(3n){margin-right: 0;}
+.board_box>ul>li>a{display: block;height: 96px;padding:10px;box-sizing:border-box;border-radius: 3px;overflow: hidden;}
+.board_box>ul>li:nth-child(1)>a{background: #00588b}
+.board_box>ul>li:nth-child(2)>a{background: #40a35b}
+.board_box>ul>li.add_li{background: #f0f2f5;}
+.board_box>ul>li.add_li a{color:#172b4d;text-align: center;line-height:80px;}
+.board_box>ul>li>a span{color: #fff;font-weight: 500;}

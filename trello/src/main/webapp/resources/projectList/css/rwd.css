@@ -1,0 +1,9 @@
+@media screen and (max-width:1400px){
+    #loginPage .wrap_h{width:auto;margin:0 5%;}
+    
+}
+@media screen and (max-width:1200px){
+    #loginPage{width:200px;overflow: auto;}
+    #loginPage .wrap{width:200px;overflow: auto;}
+    .loginInner{margin-left: -424px;}
+}
