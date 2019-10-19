@@ -33,7 +33,7 @@
 	<!-- Page Wrapper -->
   <div id="wrapper">
 	<%@ include file="register.jsp" %>
-    <%@ include file="sidebar.jsp" %>
+   <%--  <%@ include file="sidebar.jsp" %> --%>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -48,18 +48,32 @@
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
           </button>
-
+		
           <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" id="searchForm" action="/board/list" method="get">
             <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
+              <select class="form-control" name="type"  >
+              	<option value=""<c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
+              	<option value="T" <c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>title</option>
+              	<option value="C"<c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>content</option>
+              	<option value="W"<c:out value="${pageMaker.cri.type eq 'W'?'selected':''}"/>>writer</option>
+              	<option value="TC"<c:out value="${pageMaker.cri.type eq 'TC'?'selected':''}"/>>title or content</option>
+              	<option value="TW"<c:out value="${pageMaker.cri.type eq 'TW'?'selected':''}"/>>title or writer</option>
+              	<option value="TWC"<c:out value="${pageMaker.cri.type eq 'TWC'?'selected':''}"/>>title or content or writer</option>
+              </select>
+           </div>           
+              <input type="text" name="keyword" value='<c:out value="${pageMaker.cri.keyword}"/>'class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+              <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+              <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+              <div class="input-group-append">
+                <button class="btn btn-primary">
                   <i class="fas fa-search fa-sm"></i>
                 </button>
               </div>
             </div>
           </form>
+          
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
@@ -251,24 +265,46 @@
                   </thead>
                   <tbody>
                     <c:forEach items="${list}" var="board">
-                    <tr>
-                      <td><c:out value="${board.bno}"></c:out></td>
-                      <td>
-	                      <a href ="/board/detail?bno=<c:out value="${board.bno}"/>">
-	                      		<c:out value="${board.title}"/>
-	                      </a>
-                      </td>
-                      <td><c:out value="${board.writer}"></c:out></td>
-                      <td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.regdate}"/></td>
-                      <td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.updateDate}"/></td>
-                    </tr>
+	                    <tr>
+	                      <td><c:out value="${board.bno}"></c:out></td>
+	                      <td data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+		                      <a class='move' href ='<c:out value="${board.bno}"/>'>
+		                      		<c:out value="${board.title}"/>
+		                      </a>
+	                      </td>
+	                      <td><c:out value="${board.writer}"></c:out></td>
+	                      <td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.regdate}"/></td>
+	                      <td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.updateDate}"/></td>
+	                    </tr>
                     </c:forEach>
                   </tbody>
-                </table>
+                </table>             
+	            <div class="dataTables_wrapper">   
+		             <div class="pull-right dataTables_paginate">
+		            	<ul class="pagination">
+		            		<c:if test="${pageMaker.prev}">
+		            			<li class="paginate_button previous"><a href="${pageMaker.startPage -1}" class="page-link">Previous</a></li>
+		            		</c:if>
+		            		
+		            		<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+		            			<li class="paginate_button"><a href="${num}" class="page-link">${num}</a></li>
+		            		</c:forEach>
+		            		
+		            		<c:if test="${pageMaker.next}">
+		            			<li class="paginate_button next"><a href="${pageMaker.endPage +1}" class="page-link">Next</a></li>
+		            		</c:if>
+		            	</ul>
+		            </div>
+	            </div>
+	            <form id="actionForm" action="/board/list" method="get">
+	            	<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}" >
+	            	<input type="hidden" name="amount" value="${pageMaker.cri.amount}" >
+	            	<input type="hidden" name="type" value="${pageMaker.cri.type}">
+	            	<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
+	            </form>
               </div>
-            </div>
+            </div>       
           </div>
-
         </div>
         <!-- /.container-fluid -->
 
@@ -297,25 +333,6 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Bootstrap core JavaScript-->
   <script src="/resources/board/vendor/jquery/jquery.min.js"></script>
   <script src="/resources/board/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -326,12 +343,12 @@
   <!-- Custom scripts for all pages-->
   <script src="/resources/board/js/sb-admin-2.min.js"></script>
 
-  <!-- Page level plugins -->
+
   <script src="/resources/board/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="/resources/board/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-  <!-- Page level custom scripts -->
-  <script src="/resources/board/js/demo/datatables-demo.js"></script>
+
+  <!-- <script src="/resources/board/js/demo/datatables-demo.js"></script> -->
 
 
 
@@ -366,9 +383,10 @@
   $(document).ready(function(){
   	var result = '<c:out value="${result}"/>';
   	checkModal(result);
-  	
+
+  	console.log("result:"+result);
   	function checkModal(result){
-  		if(result === ''){
+  		if(result===""){
   			return;
   		}
   		if(parseInt(result)>0){
@@ -377,9 +395,42 @@
   		$("#confirm").modal("show");
   	}
   	
-  	/* $("#regBtn").on("click", function(){
-  		self.location = "/board/register";
-  	}) */
+  	
+  	var actionForm = $('#actionForm');
+  	
+  	$('.paginate_button a').on('click', function(e){
+  		e.preventDefault();
+  		
+  		console.log('click');
+  		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+  		actionForm.submit();
+  	});
+  	
+  	$(".move").on("click", function(e){
+  		e.preventDefault();
+  		actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
+  		actionForm.attr("action", "/board/get");
+  		actionForm.submit();
+  	})
+  	
+  	var searchForm = $("#searchForm");
+  	$("#searchForm button").on("click", function(e){
+  		
+  		if(!searchForm.find("option:selected").val()){
+  			alert("검색 종류를 선택하세요");
+  			return false;
+  		}
+  		if(!searchForm.find("input[name='keyword']").val()){
+  			alert("키워드를 입력하세요");
+  			return false;
+  		}
+  		
+  		searchForm.find("input[name='pageNum']").val("1");
+  		e.preventDefault();
+  		
+  		searchForm.submit();
+  	})
+  	
   	
   });
   </script>

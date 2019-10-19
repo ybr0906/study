@@ -41,7 +41,7 @@
       <!-- /.panel-heading -->
       <div class="panel-body">
 	
-	 <form role="form" action="/board/modify" method="post">
+			<form role="form" action="/board/modify" method="post">
 		          <div class="form-group">
 		            <label>Title</label> <input class="form-control" name='title' value="${board.title}">
 		          </div>
@@ -54,12 +54,17 @@
 		          <div class="form-group">
 		            <label>Writer</label> <input class="form-control" name='writer' value="${board.writer}" readonly="readonly">
 		          </div>
-		          <input type="hidden" name="bno" value="<c:out value="${board.bno}"/>"/> 
+		          
+		          <input type="hidden" name="bno" value="<c:out value="${board.bno}"/>"/>
+		          <input type="hidden" name="pageNum" value='<c:out value="${cri.pageNum}"/>'/>
+		          <input type="hidden" name="amount"value='<c:out value="${cri.amount}"/>'/>
+
 		    	  <div class="modal-footer">
-			        <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			        <button type="button" id="close"class="btn btn-secondary">List</button>
+			        <button type="button" id="remove"class="btn btn-secondary">Remove</button>
 			        <button type="submit" class="btn btn-primary">Save</button>
 			      </div>
-		        </form>
+			</form>
       </div>
       <!--  end panel-body -->
 
@@ -87,6 +92,20 @@
 
   <!-- Page level custom scripts -->
   <script src="/resources/board/js/demo/datatables-demo.js"></script>
-
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#remove").on("click", function(){
+				event.preventDefault();
+				$("form").attr("action","/board/remove");
+				$("form").submit();
+			});
+			
+		 	$("#close").on("click", function(){
+				$("form").attr("action", "/board/list");
+				$("form").attr("method", "get");
+				$("form").submit();
+			});
+		});
+	</script>
 </body>
 </html>
