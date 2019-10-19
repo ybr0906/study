@@ -1,0 +1,88 @@
+CREATE TABLE PROJECT(
+    PJT_NO NUMBER PRIMARY KEY,
+	PJT_TITLE  VARCHAR2(50)  NOT NULL,
+    PJT_CONTENT VARCHAR2(200),
+    PJT_DATE  DATE  NOT NULL ,
+    TOTAL_M_NO NUMBER NOT NULL
+);
+
+alter table PROJECT
+add foreign key(total_m_no)
+REFERENCES total_member(total_m_no);
+
+
+CREATE SEQUENCE PROJECT_SEQ INCREMENT BY 1 START WITH 1 MAXVALUE 10000 MINVALUE 1;
+
+INSERT INTO PROJECT (PJT_NO, PJT_TITLE, PJT_CONTENT, PJT_DATE, TOTAL_M_NO)
+VALUES(PROJECT_SEQ.NEXTVAL, 'FIRST PROJECT', '첫번째프로젝트생성', SYSDATE, 1);
+
+
+create table member(
+    member_no number primary key,
+    member_email VARCHAR(50) not null,
+    member_password VARCHAR(50) not null
+);
+
+create table token_member(
+    token_m_no number primary key,
+    token_m_email VARCHAR(50) not null,
+    token_m_at VARCHAR(50) not null,
+    token_m_rt VARCHAR(50) not null
+);
+
+create table total_member(
+    total_m_no number primary key,
+    member_no number,
+    token_m_no number
+);
+
+alter table total_member
+add foreign key(member_no)
+REFERENCES member(member_no);
+
+alter table total_member
+add foreign key(token_m_no)
+REFERENCES token_member(token_m_no);
+
+commit;
+
+create table tbl_member(
+    userid VARCHAR2(20) PRIMARY key,
+    userpw VARCHAR2(20) not null,
+    username VARCHAR2(20) not null,
+    enabled CHAR(1),
+    regdate date,
+    updatedate date
+);
+
+create table tbl_member_auth(
+    userid VARCHAR2(20),
+    auth VARCHAR2(20),
+    FOREIGN key(userid)
+    REFERENCES tbl_member(userid)
+);
+
+insert into tbl_member values('user90', '1234', '윤병록', 'Y', sysdate, sysdate);
+insert into tbl_member_auth values('user90', 'ROLE_ADMIN');
+insert into tbl_member_auth values('user90', 'ROLE_MEMBER');
+
+commit;
+
+CREATE SEQUENCE SEQ_BOARD 
+start with 1 increment BY 1 maxvalue 10000;;
+
+CREATE TABLE TBL_BOARD (
+	BNO NUMBER(10), 
+	TITLE VARCHAR2(200), 
+	CONTENT VARCHAR2(50), 
+	WRITER VARCHAR2(50), 
+	REGDATE DATE DEFAULT sysdate, 
+	UPDATEDATE DATE DEFAULT sysdate
+);
+
+ALTER TABLE TBL_BOARD
+ADD CONSTRAINT PK_BOARD PRIMARY KEY (BNO);
+
+insert into tbl_board(BNO,TITLE,CONTENT,WRITER,REGDATE,UPDATEDATE) values(SEQ_BOARD.nextval, 'first','content', '윤병록', sysdate, sysdate );
+
+commit;
