@@ -39,7 +39,7 @@ public class BoardController {
 		int total = service.getTotal(cri);
 		PageDTO page = new PageDTO(cri, total);
 		
-		log.info("page: "+page);
+		log.info("cri: "+cri);
 		List<BoardVO> list = service.getList(cri);
 		
 		model.addAttribute("list", list);
@@ -58,6 +58,8 @@ public class BoardController {
 	
 	@GetMapping("/get")
 	public void get(@RequestParam("bno") Long bno, Model model, @ModelAttribute("cri") Criteria cri) {
+		log.info("get: "+ cri);
+	
 		model.addAttribute("board", service.get(bno));
 	}
 
