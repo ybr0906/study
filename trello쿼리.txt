@@ -14,7 +14,7 @@ REFERENCES total_member(total_m_no);
 CREATE SEQUENCE PROJECT_SEQ INCREMENT BY 1 START WITH 1 MAXVALUE 10000 MINVALUE 1;
 
 INSERT INTO PROJECT (PJT_NO, PJT_TITLE, PJT_CONTENT, PJT_DATE, TOTAL_M_NO)
-VALUES(PROJECT_SEQ.NEXTVAL, 'FIRST PROJECT', '√ππ¯¬∞«¡∑Œ¡ß∆Æª˝º∫', SYSDATE, 1);
+VALUES(PROJECT_SEQ.NEXTVAL, 'FIRST PROJECT', 'Ï≤´Î≤àÏß∏ÌîÑÎ°úÏ†ùÌä∏ÏÉùÏÑ±', SYSDATE, 1);
 
 
 create table member(
@@ -62,7 +62,7 @@ create table tbl_member_auth(
     REFERENCES tbl_member(userid)
 );
 
-insert into tbl_member values('user90', '1234', '¿±∫¥∑œ', 'Y', sysdate, sysdate);
+insert into tbl_member values('user90', '1234', 'Ïú§Î≥ëÎ°ù', 'Y', sysdate, sysdate);
 insert into tbl_member_auth values('user90', 'ROLE_ADMIN');
 insert into tbl_member_auth values('user90', 'ROLE_MEMBER');
 
@@ -83,6 +83,22 @@ CREATE TABLE TBL_BOARD (
 ALTER TABLE TBL_BOARD
 ADD CONSTRAINT PK_BOARD PRIMARY KEY (BNO);
 
-insert into tbl_board(BNO,TITLE,CONTENT,WRITER,REGDATE,UPDATEDATE) values(SEQ_BOARD.nextval, 'first','content', '¿±∫¥∑œ', sysdate, sysdate );
+insert into tbl_board(BNO,TITLE,CONTENT,WRITER,REGDATE,UPDATEDATE) values(SEQ_BOARD.nextval, 'first','content', 'Ïú§Î≥ëÎ°ù', sysdate, sysdate );
+
+commit;
+
+create table tbl_reply(
+    rno number(10,0),
+    bno number(10,0) not null,
+    reply varchar2(1000) not null,
+    replyer varchar2(50) not null,
+    replyDate date default sysdate,
+    updateDate date default sysdate
+);
+
+create sequence seq_reply;
+
+alter table tbl_reply add constraint pk_reply primary key (rno);
+alter table tbl_reply add constraint fk_reply_board foreign key(bno) references tbl_board(bno);
 
 commit;
