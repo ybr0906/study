@@ -18,7 +18,7 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="/resources/board/css/bootstrap.min.css" rel="stylesheet">
+  <!-- <link href="/resources/board/css/bootstrap.min.css" rel="stylesheet"> -->
   <link href="/resources/board/css/sb-admin-2.min.css" rel="stylesheet">
 
   <!-- Custom styles for this page -->
@@ -63,7 +63,7 @@
 		          <input type="hidden" name="type" value="${cri.type}">
 	              <input type="hidden" name="keyword" value="${cri.keyword}">
 
-		    	  <div class="modal-footer">
+		    	  <div class="footer">
 			        <button type="button" id="close"class="btn btn-secondary">List</button>
 			        <button type="button" id="remove"class="btn btn-secondary">Remove</button>
 			        <button type="submit" class="btn btn-primary">Save</button>
@@ -78,23 +78,23 @@
   <!-- end panel -->
 </div>
 <!-- /.row -->
-
+</br>
 <div class='row'>
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<i class="fa fa-comments fa-fw"> </i> Reply
-				<button id="addReplyBtn" class="btn btn-primary btn-xs pull-right">New Reply</button>
+				<button id="addReplyBtn" class="btn btn-primary btn-xs float-right">New Reply</button>
 			</div>
 		</div>
-		
+		</br>
 		<div class="panel-body">
 			<ul class="chat" style="list-style:none; padding-left:0px;">
 				<li class="left clearfix" data-rno="12">
 					<div>
 						<div class="header">
 							<strong class="primary-font">user00</strong>
-							<small class="pull-right text-muted">2018-01-01 13:13</small>
+							<small class="float-right text-muted">2018-01-01 13:13</small>
 						</div>
 						<p>Good job!</p>
 					</div>
@@ -104,6 +104,47 @@
 	</div>
 </div>
 </div>
+
+	<!-- Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">REPLY MODAL</h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Reply</label> 
+                <input class="form-control" name='reply' value='New Reply!!!!'>
+              </div>      
+              <div class="form-group">
+                <label>Replyer</label> 
+                <input class="form-control" name='replyer' value='replyer' readonly="readonly">
+              </div>
+              <div class="form-group">
+                <label>Reply Date</label> 
+                <input class="form-control" name='replyDate' value='2018-01-01 13:13'>
+              </div>
+      
+            </div>
+
+		<div class="modal-footer">
+	        <button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
+	        <button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
+	        <button id='modalRegisterBtn' type="button" class="btn btn-primary">Register</button>
+	        <button id='modalCloseBtn' type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
+	      </div>          
+	    </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
+
 
   <!-- Bootstrap core JavaScript-->
   <script src="/resources/board/vendor/jquery/jquery.min.js"></script>
@@ -126,66 +167,22 @@
   <script src="/resources/board/js/demo/datatables-demo.js"></script>
 	
 	<script type="text/javascript">
-		
-		console.log("JS TEST");
-		
-		var bnoValue = '<c:out value="${board.bno}"/>';
-		
-		/* replyService.add(		
-			{reply:"JS Test", replyer:"tester", bno:bnoValue},
-			function(result){
-				alert("Result: "+result);
-			}
-		); */
-		
-		/* replyService.getList({bno:bnoValue, page:1}, function(list){
-			for(var i = 0, len = list.length || 0; i< len; i++){
-				console.log(list[i]);
-			}	
-		}); */
-		
-		/* replyService.remove(63, function(count){
-				console.log(count);
-				if (count === "success") {
-				     alert("REMOVED");
-				   }
-			}, function(err){
-				alert("ERROR...");
-		}); */
-		
-		/*  replyService.remove(61, function(count) {
-
-			   console.log(count);
-
-			   if (count === "success") {
-			     alert("REMOVED");
-			   }
-			 }, function(err) {
-			   alert('ERROR...');
-			 }); */
-			 
-			 /* replyService.update({rno:101, bno:bnoValue, reply:"Modified Reply...."},
-					 function(result){
-				 		alert("수정완료");	
-			 		}
-			 ); */
-			 
-			 replyService.get(31, function(data){
-				console.log(data); 
-			 });
-			 
-		
-	</script>
-	
-	
-	<script type="text/javascript">
 		$(document).ready(function(){
 
 			var bnoValue = "<c:out value='${board.bno}'/>";
 			var replyUL = $(".chat");
 			
-			showList(1);
+			var modal = $(".modal");
+			var modalInputReply = modal.find("input[name='reply']");
+			var modalInputReplyer = modal.find("input[name='replyer']");
+			var modalInputReplyDate = modal.find("input[name='replyDate']");
 			
+			var modalModBtn = $("#modalModBtn");
+			var modalRemoveBtn = $("#modalRemoveBtn");
+			var modalRegisterBtn = $("#modalRegisterBtn");
+			
+			showList(1);
+			/* 댓글 출력 */
 			function showList(page){
 				replyService.getList(
 					{bno: bnoValue, page: page||1},
@@ -199,13 +196,89 @@
 						for(var i = 0, len = list.length || 0; i< len; i++){
 							str += "<li class= 'left clearfix' data-rno='"+list[i].rno+"'>";
 							str += "<div> <div class='header'> <strong class='primary-font'>"+list[i].replyer+"</strong>";
-							str += "<small class='pull-right text-muted'>"+replyService.displayTime(list[i].replyDate)+"</small></div>";
+							str += "<small class='float-right text-muted'>"+replyService.displayTime(list[i].replyDate)+"</small></div>";
 							str += "<p>"+list[i].reply+"</p></div></li>";
 						}
 						replyUL.html(str);
 					}
 				);
 			}
+			
+			/* 댓글 입력 */
+			$("#addReplyBtn").on("click", function(e){
+				modal.find("input").val("");
+				modalInputReplyDate.closest("div").hide();
+				modal.find("button[id != 'modalCloseBtn']").hide();
+				
+				modalRegisterBtn.show();
+				
+				$(".modal").modal("show");
+			});
+			
+			modalRegisterBtn.on("click",function(e){
+					var reply = {
+							reply: modalInputReply.val(),
+							replyer: modalInputReplyer.val(),
+							bno: bnoValue
+					}
+					
+					replyService.add(reply, function(result){
+						alert(result);
+						
+						modal.find("input").val("");
+						modal.modal("hide");
+						showList(1);
+					});
+					
+				}		
+			);
+			
+			/* 댓글 창 띄우기 */
+			$(".chat").on("click", "li", function(e){
+				
+				var rno = $(this).data("rno");
+				
+				replyService.get(rno, function(data){
+					modalInputReply.val(data.reply);
+					modalInputReplyer.val(data.replyer);
+					modalInputReplyDate.val(replyService.displayTime(data.replyDate)).attr("readonly", "readonly");
+					modal.data("rno",data.rno);
+					
+					modal.find("button[id != 'modalCloseBtn']").hide();
+					modalModBtn.show();
+					modalRemoveBtn.show();
+					
+					$(".modal").modal("show");
+				 });
+			});
+			
+			/*댓글 수정  */
+			modalModBtn.on("click", function(e){
+				
+				var reply ={reply:modalInputReply.val(), rno:modal.data("rno") }
+				
+				replyService.update(reply, function(result){
+					alert(result);
+				} );
+				
+				modal.modal("hide");
+				showList("1");
+			} );
+			
+			
+			modalRemoveBtn.on("click", function(e){
+				
+				var rno = modal.data("rno");
+				console.log("확인"+ rno);
+				
+				replyService.remove(rno, function(result){
+					console.log("확인"+ rno);
+					alert(result);
+					modal.modal("hide");
+			  	    showList(1);
+				});
+			});
+			
 			
 			$("#remove").on("click", function(){
 				event.preventDefault();
