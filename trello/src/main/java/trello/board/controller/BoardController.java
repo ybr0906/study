@@ -72,6 +72,7 @@ public class BoardController {
 		}
 		return "redirect:/board/list";
 	}
+	
 	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno, RedirectAttributes rttr) {
 		if(service.remove(bno)) {
@@ -79,5 +80,4 @@ public class BoardController {
 		}
 		return "redirect:/board/list";
 	}
-	
 }

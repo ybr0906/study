@@ -18,13 +18,15 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template -->
+  <link href="/resources/board/css/bootstrap.min.css" rel="stylesheet">
   <link href="/resources/board/css/sb-admin-2.min.css" rel="stylesheet">
 
   <!-- Custom styles for this page -->
-  <link href="/resources/board/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <!-- <link href="/resources/board/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"> -->
 </head>
 <body>
 
+<div class="container">
 <div class="row">
   <div class="col-lg-12">
     <h1 class="page-header">Board Read</h1>
@@ -77,6 +79,31 @@
 </div>
 <!-- /.row -->
 
+<div class='row'>
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<i class="fa fa-comments fa-fw"> </i> Reply
+				<button id="addReplyBtn" class="btn btn-primary btn-xs pull-right">New Reply</button>
+			</div>
+		</div>
+		
+		<div class="panel-body">
+			<ul class="chat" style="list-style:none; padding-left:0px;">
+				<li class="left clearfix" data-rno="12">
+					<div>
+						<div class="header">
+							<strong class="primary-font">user00</strong>
+							<small class="pull-right text-muted">2018-01-01 13:13</small>
+						</div>
+						<p>Good job!</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+</div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="/resources/board/vendor/jquery/jquery.min.js"></script>
@@ -91,11 +118,95 @@
   <!-- Page level plugins -->
   <script src="/resources/board/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="/resources/board/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  
+  <!-- reply JavaScript -->
+  <script src="/resources/board/js/reply.js"></script>
 
   <!-- Page level custom scripts -->
   <script src="/resources/board/js/demo/datatables-demo.js"></script>
+	
+	<script type="text/javascript">
+		
+		console.log("JS TEST");
+		
+		var bnoValue = '<c:out value="${board.bno}"/>';
+		
+		/* replyService.add(		
+			{reply:"JS Test", replyer:"tester", bno:bnoValue},
+			function(result){
+				alert("Result: "+result);
+			}
+		); */
+		
+		/* replyService.getList({bno:bnoValue, page:1}, function(list){
+			for(var i = 0, len = list.length || 0; i< len; i++){
+				console.log(list[i]);
+			}	
+		}); */
+		
+		/* replyService.remove(63, function(count){
+				console.log(count);
+				if (count === "success") {
+				     alert("REMOVED");
+				   }
+			}, function(err){
+				alert("ERROR...");
+		}); */
+		
+		/*  replyService.remove(61, function(count) {
+
+			   console.log(count);
+
+			   if (count === "success") {
+			     alert("REMOVED");
+			   }
+			 }, function(err) {
+			   alert('ERROR...');
+			 }); */
+			 
+			 /* replyService.update({rno:101, bno:bnoValue, reply:"Modified Reply...."},
+					 function(result){
+				 		alert("수정완료");	
+			 		}
+			 ); */
+			 
+			 replyService.get(31, function(data){
+				console.log(data); 
+			 });
+			 
+		
+	</script>
+	
+	
 	<script type="text/javascript">
 		$(document).ready(function(){
+
+			var bnoValue = "<c:out value='${board.bno}'/>";
+			var replyUL = $(".chat");
+			
+			showList(1);
+			
+			function showList(page){
+				replyService.getList(
+					{bno: bnoValue, page: page||1},
+					function(list){
+						var str ="";
+						if(list == null || list.length ==0){
+							replyUl.html("");
+							
+							return;
+						}
+						for(var i = 0, len = list.length || 0; i< len; i++){
+							str += "<li class= 'left clearfix' data-rno='"+list[i].rno+"'>";
+							str += "<div> <div class='header'> <strong class='primary-font'>"+list[i].replyer+"</strong>";
+							str += "<small class='pull-right text-muted'>"+replyService.displayTime(list[i].replyDate)+"</small></div>";
+							str += "<p>"+list[i].reply+"</p></div></li>";
+						}
+						replyUL.html(str);
+					}
+				);
+			}
+			
 			$("#remove").on("click", function(){
 				event.preventDefault();
 				$("form").attr("action","/board/remove");
