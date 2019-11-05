@@ -31,9 +31,12 @@
 	</insert>
 	
 	<select id="check" parameterType="hashmap" resultType="String">
-		select nvl2(member_email,'Y','N')value from member
+		
+		select nvl2((select member_email from member
 		where member_email = #{email}
-		and member_password = #{password}
+		and member_password = #{password}), 'Y', 'N')
+		from dual
+		
 	</select>
 	
 </mapper>

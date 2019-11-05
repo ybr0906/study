@@ -46,20 +46,11 @@ public class MemberService {
 	
 	public String login(Map<String, String> map) {
 		
-		/*
-		 * HttpServletRequest request = null;
-		 * 
-		 * log.info("¸®Äù½ºÆ®°´Ã¼È®ÀÎ:"+request.getSession());
-		 * 
-		 * HttpSession session = request.getSession();
-		 */
-		
 		String checkValue = memberMapper.check(map);
 		
 		if(checkValue.equals("Y")) {
 			log.info("checkValue:"+checkValue);
-			
-			/* session.setAttribute("value", map.get("email")); */
+		
 			return "Y";
 		}else {
 			return "N";
