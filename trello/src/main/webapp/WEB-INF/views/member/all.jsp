@@ -74,14 +74,13 @@
                         <span class="text">또는</span>
                         <span></span>
                     </div>
-                    <form action="/login" method="post">
+                    <form action="/member/login" method="post">
 	                    <div class="inputArea loginArea">                
 		                        <label for="idInput"></label>
-		                        <input type="text" name="username" id="idInput" class="login_input" placeholder="이메일 주소"/>
+		                        <input type="text" name="email" id="idInput" class="login_input" placeholder="이메일 주소"/>
 		                        <label for="passInput"></label>
 		                        <input type="password" name="password" id="passInput" class="login_input" placeholder="비밀번호"/>               
-	                   		<input type="hidden" name="${_csrf.parameterName}"
-    value="${_csrf.token}" />
+	                   		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	                    </div>
 	                    <button type="submit" class="btnGreen mt25">로그인</button>
                     </form>
@@ -93,13 +92,13 @@
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span> 
-	            <form action="/login" method="post">
+	            <form action="/member/join" method="post">
 	        		<label for="email">email</label>
-	        		<input type="text" name="username" id="email"/><br/>
+	        		<input type="text" name="email" id="email"/><br/>
 	        		<label for="password">password</label>
 	        		<input type="password" name="password" id="password"/>
 	        		
-	        		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	        		<%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> --%>
 	        		
 	        		<button type="submit">등록</button>
 	        	</form>

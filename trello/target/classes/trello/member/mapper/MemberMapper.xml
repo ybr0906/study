@@ -25,4 +25,15 @@
 		where mem.userid = #{userid}
 	</select>
 	
+	<insert id="join" parameterType="hashmap" >
+		insert into member(member_no, member_email, member_password)
+		values(member_seq.nextval, #{email}, #{password})
+	</insert>
+	
+	<select id="check" parameterType="hashmap" resultType="String">
+		select nvl2(member_email,'Y','N')value from member
+		where member_email = #{email}
+		and member_password = #{password}
+	</select>
+	
 </mapper>

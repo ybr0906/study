@@ -1,7 +1,8 @@
 package trello.member.mapper;
 
-import trello.member.domain.MemberVO;
+import java.util.Map;
 
 public interface MemberMapper {
-	public MemberVO read(String userid);
+	public int join(Map<String, String> map); 
+	public String check(Map<String,String> map);
 }
